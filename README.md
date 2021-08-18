@@ -2,13 +2,13 @@
 
 This repo contains all the information for Azure Dev Day labs.
 
-If you don't have an Azure Subscription to use for these labs, please create a free subscription at https://azure.microsoft.com/free/git a.
+If you don't have an Azure Subscription to use for these labs, please create a free subscription at https://azure.microsoft.com/free/.
 
 ## Labs
 1. [Web Apps with App Service](app-service)
 1. [Creating Serverless Solutions](https://github.com/garyciampa/azure-dev-day-serverless)
 1. [Microservices on AKS](https://github.com/RandyPatterson/azuredev-aks)
-1. [DevOps with GitHub](https://github.com/jimblizzard/azuredevday)
+1. [DevOps with GitHub](https://github.com/jimblizzard/azure-dev-day-github-devops-lab)
 
 ## Contributing
 

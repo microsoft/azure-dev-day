@@ -24,6 +24,7 @@ This lab walks through deployment of an ASP.NET workload to Azure App Service us
 4. Microsoft .NET 5 SDK - [Download](https://dotnet.microsoft.com/download/dotnet/5.0)
 
 ## Steps
+### Setup
 1. Login to the Azure Portal at https://portal.azure.com
 1. Create a new Resource Group [rg-app-services-lab1]
 1. Once the new Resource Group gets created, click on the new Resource Group, and create a new resource 
@@ -42,6 +43,8 @@ This lab walks through deployment of an ASP.NET workload to Azure App Service us
     1. Region: [South Central US]
     1. App Service Plan: [asp-app-services-lab1]
 1.	After you finish creating the Azure resources, Azure is ready to deploy your first App Service.
+
+### Publish a new app
 1.	Launch Visual Studio 2019 on your desktop and create a new project, and choose:
 [ASP.NET Core Web App] project type, then click on the Next button:
     ![ASP.NET Core Project Icon](images/create_asp_core.png)
@@ -62,6 +65,15 @@ This lab walks through deployment of an ASP.NET workload to Azure App Service us
 1. After building, packaging, and publishing to Azure the default browser should launch and the Azure App Service URL will be there with the web site running on it:
     ![View app](images/running_app.png)
 1. Congratulations! You have successfully published your first App Service on Azure!
+
+### Update and see changes
+1. Now let’s make a change locally and re-publish the web app. Go to the Visual Studio 2019 and expand the Pages folder in the Solution Explorer and open the Index.cshtml file:
+    ![View app](images/solution-explorer.png)
+1.	Change the `<h1>` tag content from [Welcome] to [Welcome to Azure Dev Day!], then save the file:
+    ![View app](images/code-update.png)
+1.	Right-click on the project name and click on the Publish menu item, then click on the Publish button.
+1.	Your default browser will be launched showing the new changes on the live web app.
+1.	Now, you’ve published a web app and you republished the changes successfully. This lab is finished now.
 
 ## Lab Cleanup	
 1. If you want to clean up your account, then go to the Azure portal and click on the [rg-app-services-lab1] resource group.
