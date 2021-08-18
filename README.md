@@ -1,14 +1,14 @@
-# Project
+# Azure Dev Day
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+This repo contains all the information for Azure Dev Day labs.
 
-As the maintainer of this project, please make a few updates:
+If you don't have an Azure Subscription to use for these labs, please create a free subscription at https://azure.microsoft.com/free/git a.
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+## Labs
+1. [Web Apps with App Service](app-service)
+1. [Creating Serverless Solutions](https://github.com/garyciampa/azure-dev-day-serverless)
+1. [Microservices on AKS](https://github.com/RandyPatterson/azuredev-aks)
+1. [DevOps with GitHub](https://github.com/jimblizzard/azuredevday)
 
 ## Contributing
 
