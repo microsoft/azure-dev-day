@@ -24,7 +24,10 @@ This lab walks through deployment of an ASP.NET workload to Azure App Service us
 4. Microsoft .NET 5 SDK - [Download](https://dotnet.microsoft.com/download/dotnet/5.0)
 
 ## Steps
+<<<<<<< HEAD
 ### Setup
+=======
+>>>>>>> ad79682444d0c297797616b510fe0d0baac54404
 1. Login to the Azure Portal at https://portal.azure.com
 1. Create a new Resource Group [rg-app-services-lab1]
 1. Once the new Resource Group gets created, click on the new Resource Group, and create a new resource 
@@ -43,8 +46,11 @@ This lab walks through deployment of an ASP.NET workload to Azure App Service us
     1. Region: [South Central US]
     1. App Service Plan: [asp-app-services-lab1]
 1.	After you finish creating the Azure resources, Azure is ready to deploy your first App Service.
+<<<<<<< HEAD
 
 ### Publish a new app
+=======
+>>>>>>> ad79682444d0c297797616b510fe0d0baac54404
 1.	Launch Visual Studio 2019 on your desktop and create a new project, and choose:
 [ASP.NET Core Web App] project type, then click on the Next button:
     ![ASP.NET Core Project Icon](images/create_asp_core.png)
