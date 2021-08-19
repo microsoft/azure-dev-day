@@ -2,6 +2,8 @@
 
 This repo contains all the information for Azure Dev Day labs.
 
+You can access the [presentations and content here](https://www.linkedin.com/smart-links/AQHj8nc75BxgAA).
+
 If you don't have an Azure Subscription to use for these labs, please create a free subscription at https://azure.microsoft.com/free/.
 
 ## Labs
