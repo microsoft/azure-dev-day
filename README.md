@@ -8,7 +8,7 @@ If you don't have an Azure Subscription to use for these labs, please create a f
 
 ## Labs
 1. [Web Apps with App Service](https://github.com/caligaris/azure-dev-day-app-service)
-1. [Creating Serverless Solutions](https://github.com/garyciampa/azure-dev-day-serverless)
+1. [Creating Serverless Solutions](https://github.com/microsoft/azure-dev-day/tree/main/serverless)
 1. [Microservices on AKS](https://github.com/RandyPatterson/azuredev-aks)
 1. [DevOps with GitHub](https://github.com/jimblizzard/azure-dev-day-github-devops-lab)
 
