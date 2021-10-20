@@ -4,7 +4,13 @@ This repo contains all the information for Azure Dev Day labs.
 
 You can access the [presentations and content here](https://www.linkedin.com/smart-links/AQHj8nc75BxgAA).
 
-If you don't have an Azure Subscription to use for these labs, please create a free subscription at https://azure.microsoft.com/free/.
+## Prerequisites
+
+We encourage you to follow along the hands-on labs during lab sessions.
+
+* If you don't have an Azure Subscription to use for these labs, please create a free subscription at https://azure.microsoft.com/free/.
+* If you don't have Visual Studio Code installed, please download and install it at https://code.visualstudio.com/
+* If you don't have the Azure CLI installed, please download and install it at https://docs.microsoft.com/en-us/cli/azure/install-azure-cli.  Alternately you'll be able to use the Azure Cloud Shell in the Azure Portal.
 
 ## Labs
 1. [Web Apps with App Service](https://github.com/caligaris/azure-dev-day-app-service)
