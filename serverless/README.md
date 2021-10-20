@@ -55,6 +55,7 @@ export REGION=<eastus2>
 
 export COSMOSDB_ACCOUNT_NAME=${TAG_PREFIX}-cosmosdb-$RANDOM
 
+# Azure storage account names must be <= 24 characters
 export STORAGE_ACCOUNT_FUNC=stgfunc${TAG_PREFIX}${RANDOM}
 export STORAGE_ACCOUNT_EVENT=stgevent${TAG_PREFIX}${RANDOM}
 
@@ -94,7 +95,7 @@ az storage account create --name $STORAGE_ACCOUNT_FUNC --location $REGION --reso
 
 ### Step 4A: Create Function App service (function app service is a placeholder for the event grid function, created in next steps)
 
-az functionapp create --name $FUNCTION_APPNAME  --storage-account $STORAGE_ACCOUNT_NAME \
+az functionapp create --name $FUNCTION_APPNAME  --storage-account $STORAGE_ACCOUNT_FUNC \
 	--consumption-plan-location $REGION \
 	--resource-group $RESOURCE_GROUP --functions-version 2 --tags $TAG_PREFIX
 ````
@@ -103,12 +104,12 @@ az functionapp create --name $FUNCTION_APPNAME  --storage-account $STORAGE_ACCOU
 
 In this step, a Storage Account will be created, and then an Event Grid System Topic to the previously created Function App 
 - Create a Storage Account
-- Bund an Event Grid System Topic to a Function App 
+- Bind an Event Grid System Topic to a Function App 
 
 ### Step 5.a: Create Storage Account for Event Grid, Azure Fuction and Event Grid
 
 ````shell 
-# Create storage account and function app service 
+# Create storage account for Event Grid Service 
 az storage account create --name $STORAGE_ACCOUNT_EVENT --location $REGION --resource-group $RESOURCE_GROUP --sku Standard_LRS --tags $TAG_PREFIX 
 ````
 
@@ -139,21 +140,23 @@ Navigate within the function app, verify function is **Enabled**
 ##
 ### Step 5.d: Create Event Grid System Topic and Function to process blob storage events 
 
-Navigate to the Resource Group created previously, select the **Event Grid Storage Account**, **Events** <img src="media/rg.events.select.png" > icon to create an Event Grid System Topic and link it to the Function App. 
+Navigate to the Resource Group created previously, select the **Event Grid Storage Account**, **Events** <img src="media/rg.events.select.png" > icon and **Create** an **Event Subscription**, link it to the Function App. 
 
-- Verify the **Topic Type** and **Source Resource** match the **stgevent....** resource created previously 
+- Configure and verify the **Topic Type** and **Source Resource** match the **stgevent....** resource created previously 
 - Select:  **Event Subscription** 
 - Name: **BlobEventGridToFunctionApp** 
 - Event Schema: **Event Grid Schema** 
 - System Topic Name: **BlobEventGridToFunctionAppTopic**
 - Event Types Filter: **default 2 selected, or as desired** 
 - Endpoint Type: **Azure Function** 
-- Endpoint: **select endpoint** (navigate and select the desired FunctionApp and Function> 
+- Endpoint: **select endpoint** (navigate and select the desired FunctionApp and select the default **Function Name**  
+- **Create**, a Function will **automatically** be created to process the **Event Grid** trigger
 
 <img src="media/eventgrid.function.endpoint.png"> 
 
+Navigate to the Resource Group created previously, select the **Function App** -> **Functions** -> Select the **Function Name** -> **Code and + Test**: . 
 
-**EventGridTriggerFunction\run.csx** will be created with the following properties: 
+- Verify **{EventGridTriggerFunction}\run.csx** contains the following properties: 
 
 ````shell
 #r "Microsoft.Azure.EventGrid"
@@ -176,8 +179,8 @@ Current status is the following have been created and ready for testing:
 
 Next step is to create an blob container, upload files and verify the Event Grid System Topic triggers the Function App 
 
-- Navigate to the storage accouint
-- Select: **Blob containers**, **+ Add Container**
+- Navigate to the Resource Group, select the storage account crated for the **Event Grid**
+- Select: **Containers**, **+ Add Container**
 - Name: **container1**, 
 - Access level: **default** or **as desired** 
 - Create 
@@ -198,14 +201,13 @@ Open a second browser session in the Azure Portal:
 
 The next step in the application architecture is to push a document representing the Event Grid event to **Cosmos DB** for subsequent downstream processing. Adding Cosmos DB requires two steps: 
 
-
 - Adding an **Output Binding** to the **EventGridTriggerFunction**
 - Updating the  **EventGridTriggerFunction** function to emit the events into Cosmos DB 
 
 ### Step 7.a: Azure Cosmos DB Output Binding
 
 Navigate to the **EventGridTriggerFunction**, select **Integration** and **Add output**: 
-- Binding Type: **Azure Cosmos DB**
+- Binding Type: **Azure Cosmos DB**, select **New**, **Cosmos DB account connection**, and link to Cosmos DB account created earlier in the resource group
 - Document parameter name: **outputDocument** (case sensitive and must match the outputDocument property in the function 
 - Database name: **EventGridBlobStorageDb** (as desired)
 - Colleciton name: **Container1** (as desired) 
