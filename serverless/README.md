@@ -91,7 +91,7 @@ Creating a Storage Account and Function App via the [Azure Portal](https://porta
 
 ````shell 
 # Create storage account and function app service 
-az storage account create --name $STORAGE_ACCOUNT_FUNC --location $REGION --resource-group $RESOURCE_GROUP --sku Standard_LRS --tags $TAG_PREFIX 
+az storage account create --name $STORAGE_ACCOUNT_EVENT --location $REGION --resource-group $RESOURCE_GROUP --sku Standard_LRS --tags $TAG_PREFIX 
 
 ### Step 4A: Create Function App service (function app service is a placeholder for the event grid function, created in next steps)
 
