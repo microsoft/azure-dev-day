@@ -16,7 +16,7 @@ We encourage you to follow along the hands-on labs during lab sessions.
 1. [Web Apps with App Service](https://github.com/caligaris/azure-dev-day-app-service)
 1. [Creating Serverless Solutions](https://github.com/microsoft/azure-dev-day/tree/main/serverless)
 1. [Microservices on AKS](https://github.com/RandyPatterson/azuredev-aks)
-1. [DevOps with GitHub](https://github.com/jimblizzard/azure-dev-day-github-devops-lab)
+1. [DevOps with GitHub](https://github.com/microsoft/azure-dev-day/tree/main/github-devops)
 
 
 ## Contributing
