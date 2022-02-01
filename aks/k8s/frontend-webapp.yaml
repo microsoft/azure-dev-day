@@ -1,0 +1,52 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: demowebapp
+spec:
+  selector:
+    app: demowebapp
+  ports:
+    - protocol: "TCP"
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demowebapp
+  labels:
+    app: demowebapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: demowebapp
+  template:
+    metadata:
+      labels:
+        app: demowebapp
+    spec:
+      containers:
+        - name: demowebapp
+          image: "[replace].azurecr.io/sample/demoweb-app:v1"
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+                path: /health
+                port: 80
+            initialDelaySeconds: 1
+            periodSeconds: 5
+          resources:
+            requests:
+              memory: 256Mi
+              cpu: 100m
+            limits: 
+              memory: 512Mi
+              cpu: 250m
+          env:
+            - name: ApiHost
+              value: "demowebapi"
+          ports:
+            - name: http
+              containerPort: 80

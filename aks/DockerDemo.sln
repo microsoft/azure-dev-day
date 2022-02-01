@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29009.5
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp", "WebApp\WebApp.csproj", "{91F59597-FEC6-4476-ACCE-7B2CD4D8B117}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csproj", "{B6ABCAC0-C1A8-44CC-8900-24CF99067AE0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7E78AFC7-E805-493F-BE45-1677493DEEA3}"
+	ProjectSection(SolutionItems) = preProject
+		backend-webapi.yaml = backend-webapi.yaml
+		frontend-webapp.yaml = frontend-webapp.yaml
+		kubernetes script.docx = kubernetes script.docx
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91F59597-FEC6-4476-ACCE-7B2CD4D8B117}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91F59597-FEC6-4476-ACCE-7B2CD4D8B117}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91F59597-FEC6-4476-ACCE-7B2CD4D8B117}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91F59597-FEC6-4476-ACCE-7B2CD4D8B117}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6ABCAC0-C1A8-44CC-8900-24CF99067AE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6ABCAC0-C1A8-44CC-8900-24CF99067AE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6ABCAC0-C1A8-44CC-8900-24CF99067AE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6ABCAC0-C1A8-44CC-8900-24CF99067AE0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8321BC06-789D-4B79-8265-B2699BF320DD}
+	EndGlobalSection
+EndGlobal
