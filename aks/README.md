@@ -135,7 +135,7 @@ The Dockerfile used in the following example depends on a public base container 
 1. First, modify the Kubernetes YAML files to include the name of your Azure Container Registry created in [Task 2](#task-2-create-a-container-registry). You can type the command ``` echo $acr ``` to display the name of your Registry
 
     1. Open the editor using the ```{}``` icon located at the top of Azure Cloud Shell
-    1. In the editor, navigate to the direcory **azuredev-aks/k8s** and open the **frontend-webapp.yaml** file and update the string **"[replace]"** for the container image name on line 32 with the name of your container registry 
+    1. In the editor, navigate to the direcory **azuredev-aks/aks/k8s** and open the **frontend-webapp.yaml** file and update the string **"[replace]"** for the container image name on line 32 with the name of your container registry 
     1. Save your changes by pressing ```CTRL+S```
     ![](media/image-4.png)
 
