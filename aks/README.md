@@ -106,8 +106,8 @@ The Dockerfile used in the following example depends on a public base container 
 1. Clone the Github repository
 
     ```bash
-    git clone https://github.com/RandyPatterson/azuredev-aks.git
-    cd azuredev-aks
+    git clone https://github.com/microsoft/azure-dev-day.git
+    cd ~/azure-dev-day/aks/
     ```
 
 2. Build the Web App front-end image and upload to Container Registry
