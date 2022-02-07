@@ -50,7 +50,7 @@ az account set --subscription $SUBSCRIPTION_ID
 # <business-unit> is well-known or unique attribute to distinquish among organizational resources, perhaps for billing, dev, test prod, locales, etc. 
 export TAG_PREFIX=<business-unit>
 
-export RESOURCE_GROUP=<$TAG_PREFIX-demo-azure-dev-day>
+export RESOURCE_GROUP=<$TAG_PREFIX-demo-azure-dev-day-$RANDOM>
 export REGION=<eastus2>
 
 export COSMOSDB_ACCOUNT_NAME=${TAG_PREFIX}-cosmosdb-$RANDOM
