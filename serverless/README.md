@@ -117,7 +117,7 @@ az storage account create --name $STORAGE_ACCOUNT_EVENT --location $REGION --res
 
 ### Step 5.b Create a Function to receive Event Grid events 
 
-Navigate to the Resource Group created previously, select the Function App, and create a new **Function->+Create**. 
+Navigate to the Resource Group created previously, select the Function App, and create a new **Functions -> +Create**. 
 
 - Development Environment: **Develop in portal**
 - Template: **Azure Event Grid trigger** 
