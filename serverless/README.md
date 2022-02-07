@@ -180,7 +180,7 @@ Current status is the following have been created and ready for testing:
 Next step is to create an blob container, upload files and verify the Event Grid System Topic triggers the Function App 
 
 - Navigate to the Resource Group, select the storage account crated for the **Event Grid**
-- Select: **Containers**, **+ Add Container**
+- Select: **Containers -> + Add Container**
 - Name: **container1**, 
 - Access level: **default** or **as desired** 
 - Create 
@@ -221,9 +221,11 @@ Navigate to the **EventGridTriggerFunction**, select **Integration** and **Add o
 
 ## 
 
+Navigate to the **Developer -> Code + Test** menu, select the **..\EventGridTriggerFunction\function.json** and observe the bindings for **outputDocument** maps to the **CosmosDB** collection. 
+
 ### Step 7.b: Update Azure Function to emit document event to CosmosDB binding
 
-**EventGridTriggerFunction\run.csx** with **outputDocument** set to emit to Cosmos DB output binding: 
+**EventGridTriggerFunction\run.csx** with **outputDocument** set to emit to Cosmos DB output binding, **Save** and verify compilation succeeded: 
 
 ````shell
 #r "Microsoft.Azure.EventGrid"
@@ -239,6 +241,8 @@ public static void Run(EventGridEvent eventGridEvent,  out  object outputDocumen
 }
 
 ````
+
+
 
 ### Step 7.c: Azure Cosmos DB Output Binding Test 
 
