@@ -185,7 +185,7 @@ Next step is to create an blob container, upload files and verify the Event Grid
 - Access level: **default** or **as desired** 
 - Create 
 
-Within the **EventGridTriggerFunction**, navigate to the **Monitor -> Logs ** to connect to the function app logging service to monitor function execution.
+Within the **EventGridTriggerFunction**, navigate to the **Monitor -> Logs** to connect to the function app logging service to monitor function execution.
 
 Open a second browser session in the Azure Portal:
 - Session 1: Navigate to the newly created **Blob container1**
