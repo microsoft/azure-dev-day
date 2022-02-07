@@ -31,8 +31,9 @@ Azure Serverless offerings provide a wide array of capabilites to drive modern a
 
 This example assumes the user already has an Azure subscription with contributor access. Additionally, the following services will be required during the lab: 
 
-- Azure CLI, [How to install Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
-- Git Bash, [Git Download for Windows](https://gitforwindows.org/)
+- During the lab, the **Azure Cloud Shell** may be used versus installing the **Azure CLI** or **Git Bash** on a local developer system.
+- **Optional** Azure CLI, [How to install Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
+- **Optional** Git Bash, [Git Download for Windows](https://gitforwindows.org/)
 
 ## Step 1: Setup Azure subscription and properties
 
@@ -225,7 +226,7 @@ Navigate to the **Developer -> Code + Test** menu, select the **..\EventGridTrig
 
 ### Step 7.b: Update Azure Function to emit document event to CosmosDB binding
 
-**EventGridTriggerFunction\run.csx** with **outputDocument** set to emit to Cosmos DB output binding, **Save** and verify compilation succeeded: 
+**EventGridTriggerFunction\run.csx** with **outputDocument** set to emit to Cosmos DB output binding, **Save** and verify compilation succeeded.
 
 ````shell
 #r "Microsoft.Azure.EventGrid"
