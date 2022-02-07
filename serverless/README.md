@@ -140,7 +140,7 @@ Navigate within the function app, verify function is **Enabled**
 ##
 ### Step 5.d: Create Event Grid System Topic and Function to process blob storage events 
 
-Navigate to the Resource Group created previously, select the **Event Grid Storage Account**, **Events** <img src="media/rg.events.select.png" > icon and **Create** an **Event Subscription**, link it to the Function App. 
+Navigate to the Resource Group created previously, select the **Event Grid Storage Account**, **Events** <img src="media/rg.events.select.png" > icon and **Create** an **+Event Subscription**, link it to the Function App. 
 
 - Configure and verify the **Topic Type** and **Source Resource** match the **stgevent....** resource created previously 
 - Select:  **Event Subscription** 
@@ -184,6 +184,8 @@ Next step is to create an blob container, upload files and verify the Event Grid
 - Name: **container1**, 
 - Access level: **default** or **as desired** 
 - Create 
+
+Within the **EventGridTriggerFunction**, navigate to the **Monitor -> Logs ** to connect to the function app logging service to monitor function execution.
 
 Open a second browser session in the Azure Portal:
 - Session 1: Navigate to the newly created **Blob container1**
