@@ -13,7 +13,7 @@ We encourage you to follow along the hands-on labs during lab sessions.
 * If you don't have the Azure CLI installed, please download and install it at https://docs.microsoft.com/en-us/cli/azure/install-azure-cli.  Alternately you'll be able to use the Azure Cloud Shell in the Azure Portal.
 
 ## Labs
-1. [Web Apps with App Service](https://github.com/caligaris/azure-dev-day-app-service)
+1. [Web Apps with App Service](https://github.com/microsoft/azure-dev-day/tree/main/app-service)
 1. [Creating Serverless Solutions](https://github.com/microsoft/azure-dev-day/tree/main/serverless)
 1. [Microservices on AKS](https://github.com/microsoft/azure-dev-day/tree/main/aks)
 1. [DevOps with GitHub](https://github.com/microsoft/azure-dev-day/tree/main/github-devops)
