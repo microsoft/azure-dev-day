@@ -1,5 +1,4 @@
 # Azure Dev Day - DevOps with Github lab
-Located here: <https://github.com/microsoft/azure-dev-day/tree/main/github-devops>
 
 In this lab we're going to see how easy it is to create a functional Azure Web App with its source code stored in GitHub and a GitHub CICD workflow that builds and deploys the web app. . . in just a matter of minutes.
 ## Create an Azure DevOps Starter Project
