@@ -69,7 +69,7 @@ From this view click on the **URL** link, it will take you to the newly deployed
 
 ![URL](media/app-service-url.png)
 
-You should see a web page similar to the image below, this is only a stub page and we’ll be deploying a **Todo** MVC application in our next.
+You should see a web page similar to the image below, this is only a stub page and we’ll be deploying a **Todo** MVC application next.
 
 ![Stub page](media/stub-page.png)
 
