@@ -2,7 +2,7 @@
 
 This repo contains all the information for Azure Dev Day labs.
 
-You can access the [presentations and content here](https://www.linkedin.com/smart-links/AQHj8nc75BxgAA).
+You can access the presentations and content [here](https://aka.ms/azuredevdaycontent).
 
 ## Prerequisites
 
