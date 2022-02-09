@@ -1,4 +1,4 @@
-# Azure Dev Day - Serverless Exercise 
+# Azure Dev Day - Serverless and event-driven solutions lab 
 
 <!-- TOC -->
 **Overview**: 
