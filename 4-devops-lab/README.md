@@ -125,3 +125,5 @@ Update the workflow to do a slot swap, to swap the production and pre-prod slots
 1. Commit the change.
 1. Watch the workflow run.
 1. Once the workflow completes, check the pre-prod website and the production website. The production website should have the new version message, and the pre-prod slot will have the old message. 
+
+# Now that you're done, remember to delete your Azure resources!! 
