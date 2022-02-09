@@ -1,4 +1,4 @@
-# Azure Dev Day - Web Apps with App Service
+# Azure Dev Day - Web solutions lab
 
 **Overview**: 
 
