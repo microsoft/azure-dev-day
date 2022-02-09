@@ -1,5 +1,3 @@
-
-![](media/image_header.png)
 # Azure Dev Day - Microservice solutions lab
 >Duration 45 minutes
 
