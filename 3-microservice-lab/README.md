@@ -1,6 +1,6 @@
 
 ![](media/image_header.png)
-# Azure Developer Days Lab - Azure Kubernetes Service (AKS)
+# Azure Dev Day - Microservice solutions lab
 >Duration 45 minutes
 
 # Table of contents 
