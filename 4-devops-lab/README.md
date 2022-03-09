@@ -1,9 +1,9 @@
 # Azure Dev Day Lab for GitHub DevOps
-Located here: <https://github.com/jimblizzard/azure-dev-day-github-devops-lab>
+Located here: <https://github.com/microsoft/azure-dev-day/tree/main/4-devops-lab>
 
 In this lab we're going to see how easy it is to create a functional Azure Web App with its source code stored in GitHub and a GitHub CI/CD workflow that builds and deploys the web app. . . in just a matter of minutes.
 
-*Note: in this repo (https://github.com/jimblizzard/azure-dev-day-github-devops-lab) there is a **lab-code-snippets.yml** file that you can use to copy / paste updates into your repository's workflow file instead of having to manually type the the updates.*
+*Note: in this location (https://github.com/microsoft/azure-dev-day/tree/main/4-devops-lab) there is a **lab-code-snippets.yml** file that you can use to copy / paste updates into your repository's workflow file instead of having to manually type the the updates.*
 ## Create DevOps Starter project in Azure
 
 1. Open a browser and sign into the Microsoft Azure Portal at <https://portal.azure.com>
