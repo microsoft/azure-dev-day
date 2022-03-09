@@ -1,7 +1,10 @@
-# Azure Dev Day - DevOps with GitHub lab
+# Azure Dev Day Lab for GitHub DevOps
+Located here: <https://github.com/jimblizzard/azure-dev-day-github-devops-lab>
 
-In this lab we're going to see how easy it is to create a functional Azure Web App with its source code stored in GitHub and a GitHub CICD workflow that builds and deploys the web app. . . in just a matter of minutes.
-## Create an Azure DevOps Starter Project
+In this lab we're going to see how easy it is to create a functional Azure Web App with its source code stored in GitHub and a GitHub CI/CD workflow that builds and deploys the web app. . . in just a matter of minutes.
+
+*Note: in this repo (https://github.com/jimblizzard/azure-dev-day-github-devops-lab) there is a **lab-code-snippets.yml** file that you can use to copy / paste updates into your repository's workflow file instead of having to manually type the the updates.*
+## Create DevOps Starter project in Azure
 
 1. Open a browser and sign into the Microsoft Azure Portal at <https://portal.azure.com>
 1. In the **search bar**, type **DevOps Starter** and then either **press Return** or **click on DevOps Starter** under **Services**
@@ -25,6 +28,8 @@ In this lab we're going to see how easy it is to create a functional Azure Web A
 
     1. Click **Authorize** to allow Azure to access your GitHub account & create the workflow.
         ![DevOps Starter Create](./images/devops-starter-7.png)
+    1. If prompted, enter your GitHub username or email address, and password, then click **Sign in**.
+        ![DevOps Starter Create](./images/devops-starter-7-1.png)
     1. Enter your GitHub Organization, Repository, Azure SubScription, Web app name, and Location. 
     1. Click **Review + Create**
         ![DevOps Starter Create](./images/devops-starter-8.png)
@@ -47,7 +52,7 @@ In this lab we're going to see how easy it is to create a functional Azure Web A
     ![deployment slots](./images/deployment-slots-1.png)
     1. Click on **Deployment slots**
     1. Click on **+ Add Slot**  
-    1. Name the slot **"pre-prod"** NOTE: You'll use the slot name later on when you update your CICD pipeline.
+    1. Name the slot **"pre-prod"** NOTE: You'll use the slot name later on when you update your CI/CD pipeline.
     1. Choose Clone settings from: **{your production slot name}**
     1. Click **Add**.
     1. It will take a minute or so to create the pre-prod slot. Once it finishes, click **Close** at the boottom of that window.
@@ -61,69 +66,62 @@ In this lab we're going to see how easy it is to create a functional Azure Web A
 1. **Open a new tab** and go to your GitHub account. https://github.com/{your-gh-account}
 1. Click on **Repositories** to view your repositories. 
     ![repositories](./images/repositories-1.png)
-1. Open the repository that the DevOps Starter created for you by clicking on its name. It's name is the same as the name of the App Service you created. 
-    ![open your repo](./images/open-your-repo.png)
-1. Open the CICD workflow. 
+1. Navigate to the repository that the DevOps Starter created for you by clicking on its name. It's name is the same as the name of the App Service you created. 
+    ![navigate to your repo](./images/open-your-repo.png)
+1. While on the **<> Code** tab, open the lightweight web editor in GitHub by pressing the **period key** on your keybaord, then open the devops-starter-workflow.yml file
     1. Click on **.github/workflows** 
-    ![open .github workflows](./images/open-github-workflows.png)
-    1. On the page that opens up, Click on **devops-starter-workflow.yml** to see the CICD pipeline that was created by the DevOps Starter project. 
+    1. Click on **devops-starter-workflow.yml** to see the CI/CD pipeline that was created by the DevOps Starter project.
     ![Open yaml workflow](./images/open-workflow-1.png)
 
     The workflow contains three jobs. **build**, **Deploy**, and **FunctionalTests**. We're going to update the workflow to add a slot swap action.
 
-1. Enter edit mode by clicking on the **pencil icon** at the top right of the file listing. 
-    ![Enter edit mode](./images/click-on-pencil.png)
-1. Add an environment variable called **SLOT_NAME:** with the value of **"pre-prod"**. Be sure to indent the variable the same as the other enviromnent variables.
-    ![Add SLOT_NAME environment variable](./images/add-slot-env-var.png)
-1. Modify the web app deploy action to deploy to the pre-prod slot instead of the production slot. (It should be on line 123 or so.)
-    1. Change the comment to **Deploy web app to pre-prod slot**
-    1. Change the name of the action to **'Deploy to Azure WebApp pre-prod slot'**
-    1. After the **package:** attribute, add a blank line and type **slot-name: ${{ env.SLOT_NAME }}** (Be sure the slot-name: attribute is indented the same as the package: attribute.)
-    ![Deploy to slot](./images/change-deploy-to-slot.png)
-1. Update the **Run Functional Tests** action to run against the **pre-prod** slot, by adding the new environment variable to the website's URL. *Don't forget to include a dash between the web app name and the slot name so it looks similar to this:*
+1. Add an environment variable called **SLOT_NAME:** with the value of **"pre-prod"** by pasting **Snippet 1** from the **lab-code-snippets.yml** file. Be sure the variable is indented the same as the other enviromnent variables.
+    ![Add SLOT_NAME environment variable](./images/snippet-1.png)
+1. Modify the **web app deploy action** so it deploys to the pre-prod slot instead of the production slot.
+    1. Replace the entire **Deploy web app on azure** action (lines 123 through 128) by pasting **Snippet 2** from the snippets file. After pasting the snippet, make sure the columns are indented similar to other actions as shown in the image below.
+    ![Deploy to slot](./images/deploy-to-slot.png)
+1. Modify the **Run Functional Tests** action to run against the **pre-prod** slot.
+    1. Replace the entire **Run functional tests** action (lines 144 through 152 or thereabouts) by pasting **Snippet 3** from the snippets file.  After pasting the snippet, make sure the columns are indented similar to other actions as shown in the image below.
     ![Change functional test to test the slot](./images/functional-test-against-slot.png)
-
+    1. Notice that the environment variable for the pre-prod slot has been added to the URL. 
 ## Commit the changes and watch the updated workflow run
 
-1. In the upper right of the page, 1) click on **Start commit**, 2) enter a commit message, and 3) click on **commit changes**. Note that your workflow will immediately start running since it's configured to run anytime anything is pushed to the master branch.
+1. Save the changes to the devops-starter-workflow.yml file.
+1. Click on the **source control icon** (1) then click the **plus sign** (2) to stage the changes you've made. Click in the **Message** box (3) and type a commit message. Then click on the **check mark** (4) to commit the change to the master branch. Your workflow will immediately start running since it's configured to run anytime anything is pushed to the master branch.
+    ![Commit changes](./images/commit-changes-1.png)
+1. Return to the traditional GitHub UI by....  (1) In the address bar in your browser, (2) change the "dev" in the URL to "com" and then (3) press enter.
 
-    ![Commit changes](./images/commit-changes.png)
+    ![Back to GitHub UI](./images/back-to-gh-ui.png)
+1. Click on Actions to go to the Actions tab, then click on the latest workflow to watch it run / view the results. It will take several minutes to complete. Note: In this view, the workflow run name will be whatever you typed for your commit message ("deploy and test pre-prod slot" in this case).
+    ![Click on Actions](./images/click-actions-1.png)
+    ![Click on the workflow instance](./images/look-at-workflow-results.png)
+1. You'll see the current state of the three jobs that are in the workflow. You can click on each job name within the run to see the log messages for it. (If the job is still running you'll be able to see the log messages update in real time.)
+    ![Successful workflow run](./images/successful-workflow-run-1.png)
 
-1. Click on **Actions** to see the workflow runs.
-    ![Open Actions](./images/open-actions.png)
-
-1. Click on the latest workflow to see it running. It will take several minutes to complete. Note: In this view, the workflow will be whatever you typed for your commit message. 
-    ![Open workflow run](./images/open-workflow-run.png)
-1. You'll see the current state of the three jobs that are in the workflow.
-    ![In progress workflow](./images/in-progress-workflow.png)
-
-    You can click on each job name within the run to see the log messages for it.
-    ![Looking at workflow logs](./images/looking-at-workflow-logs.png)
-
-1. Once the workflow completes, switch back to the Azure Portal tab and from the Deployment slots view, click on the pre-prod slot link, then click on the URL for the pre-prod website. 
+1. Once the workflow completes, switch back to the Azure Portal tab and from the Deployment slots view, click on the **pre-prod** slot link, then click on the URL for the pre-prod website.
 
     You should see the Success message on the pre-prod site.  
 
     ![Working slot](./images/working-slot.png)
 ## Extra credit
-Update the workflow to do a slot swap, to swap the production and pre-prod slots, then make a change to the website. Basic outline: 
+Update the workflow to do a slot swap, and swap the production and pre-prod slots, then in the source code make a change to the website. Here's the basic outline:
 
+1. Remember: to return to the lightweight web-based editor in GitHub, make sure you're on the **<> Code** tab, then press the **period key** on your keyboard. (You could also replace ".com" in the URL with ".dev" and vice-versa to switch views.)
 1. Add new job to the end of the workflow. Be sure to add "needs: FunctionalTests" to make sure it runs after the FunctionalTests job completes. 
 1. Add a login to Azure action
 1. Add a swap slots action (you'll need to use the Azure CLI to run the command). 
 
-    The newly added job should look similar to this:
+    The newly added job should look similar to this (remember -- in **.yml** files, **column alignment is crucial**):
 
     ![Swap Slots Job](./images/swap-slots.png)
 
-1. Comment out the ARM Template deploy action. (If you don't do this, your pipeline will fail.)
-    ![DevOps Starter Create](./images/comment-the-arm-template-deploy-action.png)
+1. **Important:** Comment out the ARM Template deploy action by typing a pound sign (#) at the beginning of each line. If you don't do this, your pipeline will fail. (Remember when we added the deployment slot using the Azure portal? The ARM template in our GitHub repo doesn't have that change, and re-deploying the ARM template will remove the slot, and the workflow will fail when it tries to deploy to the slot.) 
+    ![Comment out the arm template depoloy](./images/comment-the-arm-template-deploy-action.png)
 
-1. In the file **Application/views/index.pug** change the **.success-text** message to something such as **p Version 100 - Success!!**
+1. In the file **Application/views/index.pug** change the **.success-text** message to something such as **p Success is fun!!!!**
 
     ![Modify success text](./images/modify-success-text.png)
-1. Commit the change.
+1. Commit the changes.
 1. Watch the workflow run.
-1. Once the workflow completes, check the pre-prod website and the production website. The production website should have the new version message, and the pre-prod slot will have the old message. 
-
-# Now that you're done, remember to delete your Azure resources!! 
+1. Once the workflow completes, check the pre-prod website and the production website. The pre-prod website should have the old success message, and the production slot will have the new "Success is fun!!!!" message.
+    ![Production success message](./images/success-is-fun.png)

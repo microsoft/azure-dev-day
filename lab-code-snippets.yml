@@ -1,0 +1,27 @@
+
+  SLOT_NAME: "pre-prod"               # Snippet 1
+
+------------------------------------------------------
+
+    # Deploy web app on azure         # Snippet 2
+    - name: 'Deploy to Azure WebApp pre-prod slot'
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        slot-name: ${{ env.SLOT_NAME }}
+
+------------------------------------------------------
+
+    # Run functional tests            # Snippet 3
+    - name: Run Functional Tests
+      continue-on-error: false
+      run: |
+        cd Application
+        npm install
+        cd ../Tests
+        npm install
+        gulp functionaltest --webAppUrl https://${{ env.AZURE_WEBAPP_NAME }}-${{ env.SLOT_NAME }}.azurewebsites.net/
+
+
+
