@@ -106,7 +106,7 @@ In this lab we're going to see how easy it is to create a functional Azure Web A
 Update the workflow to do a slot swap, and swap the production and pre-prod slots, then in the source code make a change to the website. Here's the basic outline:
 
 1. Remember: to return to the lightweight web-based editor in GitHub, make sure you're on the **<> Code** tab, then press the **period key** on your keyboard. (You could also replace ".com" in the URL with ".dev" and vice-versa to switch views.)
-1. Add new job to the end of the workflow. **Be sure to add "needs: Deploy"** to make sure it runs after the Deploy job completes. 
+1. Add new job to the end of the workflow. **Be sure to add** ```needs: Deploy``` to make sure the new job runs after the Deploy job completes. 
 1. Add a login to Azure action
 1. Add a swap slots action (you'll need to use the Azure CLI to run the command).
 1. Add a step to logout of Azure.
