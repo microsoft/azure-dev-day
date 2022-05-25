@@ -63,7 +63,7 @@ Within the resource group you should see 4 resources: App Service plan, App Serv
 
 ![Resource group](media/resources-list.png)
 
-We'll confirm our App Service is up and running by clicking on the App Service **webApp-\<uniqid>**. This will open the **Overview** section of the App Service where you can see important information like Status, **URL**, Metrics, etc.
+We'll confirm our App Service is up and running by clicking on the App Service **webApp-\<uniqueID>**. This will open the **Overview** section of the App Service where you can see important information like Status, **URL**, Metrics, etc.
 
 From this view click on the **URL** link, it will take you to the newly deployed App Service.
 
@@ -89,13 +89,13 @@ From the ADO.NET tab copy the connection string text, for convenience you can cl
 
 ![Copy connection string](media/copy-sqlcs.png)
 
-Navigate back to the App Service resource **webApp-\<uniqid>** and from the menu blade navigate from **Overview** to **Settings -> Configuration**.
+Navigate back to the App Service resource **webApp-\<uniqueID>** and from the menu blade navigate from **Overview** to **Settings -> Configuration**.
 
 ![App Service config](media/app-service-config.png)
 
 On the **Application settings** tab click **+ New connection string**.
 
-![New conntection string](media/new-conn-str.png)
+![New connection string](media/new-conn-str.png)
 
 On the **Add/Edit connection string** pop up window:
 - Name: **MyDbConnection**
@@ -116,7 +116,7 @@ You should see the new connection string environment variable back in the **Appl
 
 From the menu blade navigate to the **Deployment -> Deployment Center**.
 
-![Deployment center](media/deplyment-center.png)
+![Deployment center](media/deployment-center.png)
 
 On the **Settings** tab, select **External Git** as a **Source** from the drop down list
 
@@ -160,13 +160,13 @@ Without closing this window, navigate to the error page and refresh the browser,
 
 Azure SQL will not allow connection to the server unless the service/IP has been whitelisted, navigate to the resource group **web-app-dev-day** from the Overview section in the menu blade and this occasion select the **SQL Server**.
 
-In the **SQL Server** menu blade scroll down and go to **Security -> Firewalls and virtual networks**, if you don’t see this option make sure you selected the **SQL Server** and not the SQL Database in the resource group list.
+In the **SQL Server** menu blade scroll down and go to **Security -> Networking**, if you don’t see this option make sure you selected the **SQL Server** and not the SQL Database in the resource group list.
 
-![SQL Server FW](media/sql-server-fw.png)
+![SQL Server FW](media/sql-server-networking.png)
 
-Toggle the **Allow Azure services and resources to access this server** switch to **Yes** and click the **Save** button on top.
+Check the check at the bottom that says **Allow Azure services and resources to access this server** and click the **Save** button.
 
-![SQL Server FW Allow Azure](media/sql-fw-allowaz.png)
+![SQL Server FW Allow Azure](media/sql-server-networking-fw.png)
 
 Azure SQL has several access controls features, for more details on these go to [Azure SQL network access controls]( https://docs.microsoft.com/en-us/azure/azure-sql/database/network-access-controls-overview).
 
@@ -180,9 +180,9 @@ Finally go back to the browser window with the error page and refresh. After a f
 
 
 ## Step 6: Clean up resources
-From the **App Service** view in the **Overiew** section click on the **Resource Group** name.
+From the **App Service** view in the **Overview** section click on the **Resource Group** name.
 
-From the top menu in the rght side click **Delete resource group**
+From the top menu in the right side click **Delete resource group**
 
 In the confirmation window type the resource group name **web-app-dev-day** and click **Delete** at the bottom.
 
