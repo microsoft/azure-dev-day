@@ -1,4 +1,4 @@
-# Azure Dev Day - Serverless and event-driven solutions lab 
+# Azure Dev Day - Serverless Exercise 
 
 <!-- TOC -->
 **Overview**: 
@@ -8,12 +8,10 @@
 - [Step 2: Create an Azure Resource Group ](#step-2-create-an-azure-resource-group)
 - [Step 3: Create Cosmos DB resources](#step-3-create-cosmos-db-resources)
 - [Step 4: Create Function App](#step-4-create-function-app)
-- [Step 5: Create Storage Account](#step-5-create-storage-account)
-- [Step 6: Ask Azure to wireup events from Blob Storage using Event Grid Topic and call AZ function](#step-6-create-event-grid)
-- [Step 7: Event Grid Blob Storage Test](#step-7-event-grid-blob-storage-test)
-- [Step 8: Azure Cosmos DB Output Binding](#step-8-azure-cosmos-db-output-binding)
-- [Step 9: Azure Cosmos DB Input Binding](#step-9-azure-cosmos-db-input-binding)
-- [Step 10: Clean up resources](#step-10-clean-up-resources)
+- [Step 5: Create Event Grid](#step-5-create-event-grid)
+- [Step 6: Event Grid Blob Storage Test](#step-6-event-grid-blob-storage-test)
+- [Step 7: Azure Cosmos DB Output Binding](#step-7-azure-cosmos-db-output-binding)
+- [Step 8: Clean up resources](#step-8-clean-up-resources)
 - [Bonus Material](#bonus-material)
 
 <!-- TOC -->
@@ -36,148 +34,101 @@ This example assumes the user already has an Azure subscription with contributor
 - Azure CLI, [How to install Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 - Git Bash, [Git Download for Windows](https://gitforwindows.org/)
 
-## Step 1: Setup Azure subscription and make sure you can  sign in 
+## Step 1: Setup Azure subscription and properties
 
 Initial login and subscription setup is a required prerequisite
 
+````shell
+export SUBSCRIPTION_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx
+
+az login 
+az account set --subscription $SUBSCRIPTION_ID
+````
+## Set variable properties for substitution, use an [Azure Tag](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources?tabs=json#azure-cli) property for uniqueness.
+
+````shell
+# <business-unit> is well-known or unique attribute to distinquish among organizational resources, perhaps for billing, dev, test prod, locales, etc. 
+export TAG_PREFIX=<business-unit>
+
+export RESOURCE_GROUP=<$TAG_PREFIX-demo-azure-dev-day>
+export REGION=<eastus2>
+
+export COSMOSDB_ACCOUNT_NAME=${TAG_PREFIX}-cosmosdb-$RANDOM
+
+# Azure storage account names must be <= 24 characters
+export STORAGE_ACCOUNT_FUNC=stgfunc${TAG_PREFIX}${RANDOM}
+export STORAGE_ACCOUNT_EVENT=stgevent${TAG_PREFIX}${RANDOM}
+
+export FUNCTION_APPNAME=${TAG_PREFIX}-functionapp-${RANDOM}
+````
 
 NOTE: The region location of the Resource Group may be different than the Azure resources 
 
 ## Step 2: Create an Azure Resource Group 
 
-  Navigate to the **Resource Groups** from the top main search bar. Select **Create** to create a New Resource Group
-  
-  Fill all paramters as shown:
-  
-- Subscription: **<your-subscription-name>**
-- Resource Name: **<prefix.region.service.rg>** 
-- Region: **<region>** 
+[Create Azure Resource Group](https://docs.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az_group_create) use the following command line:
 
-
-Click on **Review + create** and then confirm final creation
-
- <img src="media/devday-create-resource.png">
- 
+````shell
+az group create --name $RESOURCE_GROUP --location $REGION --tags $TAG_PREFIX 
+````
   
 ## Step 3: Create Cosmos DB resources
 
-Select your newly created resource group. Then click **Create** Or **Create resources** if this is the first resource your are creating
-a Cosmos DB may be accomplished via the [Azure Portal](https://docs.microsoft.com/en-us/azure/cosmos-db/create-cosmosdb-resources-portal), or via the [Azure CLI]
+Creating a Cosmos DB may be accomplished via the [Azure Portal](https://docs.microsoft.com/en-us/azure/cosmos-db/create-cosmosdb-resources-portal), or via the [Azure CLI](https://docs.microsoft.com/en-us/azure/cosmos-db/cli-samples).
 
-
-<img src="media/devday-select-cosmos-db-create.png">
-
-Then select on **Create** Azure Cosmos DB. Cosmos provides different flavors. Please choose the one with SQL
-
-Fill all the parameters as shown
-
-- Resource Group: **<prefix.region.service.rg>** 
-- Account Name: **rghosh-cosmos-sql**
-- Location: **East US** 
-- Capacity Mode: **Provisioned throughput** 
-- Other defaults, if necessary
-
-Click on **Review + create** and then confirm final creation
-
-<img src="media/devday-create-cosmos-db-1.png">
-
-
-Once created, select the COSMOS DB resource again. Then go and click on **DataExplorer** , then click on **New Container**  (DO NOT CHOOSE Items Container)
-
-Fill all the parameters as shown
-
-- Database Id: **inDatabase**
-- D Throughput: **Manual**  with a default of 400 RU
-- Container Id: **MyCollection** 
-- Partition Key: **/zipCode ** 
-- Other defaults, if necessary
-
-Click on **Create** to create our new container.
+````shell
+az cosmosdb create --name $COSMOSDB_ACCOUNT_NAME --resource-group $RESOURCE_GROUP --tags $TAG_PREFIX 
+````
  
-<img src="media/devday-create-cosmos-db-2.png">
  
-## Step 4: Create Function App 
-Navigate to the Resource Group created previously, select Create Resource 
+## Step 4: Create Function App  
+<img src="media/Function-Apps.svg" width=75 height=75px>
 
 
-<img src="media/devday-select-funcapp-create.png">
+### Step 4A: Create Storage Account and Function App
 
-Then select on **Create** Function App
+Creating a Storage Account and Function App via the [Azure Portal](https://portal.azure.com), or via the [Azure CLI](https://docs.microsoft.com/en-us/azure/azure-functions/scripts/functions-cli-create-serverless).
 
-Fill all the parameters as shown:
+````shell 
+# Create storage account and function app service 
+az storage account create --name $STORAGE_ACCOUNT_FUNC --location $REGION --resource-group $RESOURCE_GROUP --sku Standard_LRS --tags $TAG_PREFIX 
 
-- Function App Name: **devday-mfa**
-- Publish: **Code** 
-- Runtime Stack: **Node.js** 
-- Version:**14 LT**
+### Step 4A: Create Function App service (function app service is a placeholder for the event grid function, created in next steps)
 
-Click on **Review + create** and then confirm final creation
+az functionapp create --name $FUNCTION_APPNAME  --storage-account $STORAGE_ACCOUNT_FUNC \
+	--consumption-plan-location $REGION \
+	--resource-group $RESOURCE_GROUP --functions-version 3 --tags $TAG_PREFIX
+````
 
-<img src="media/devday-create-function-app-1.png">
+## Step 5: Create Event Grid 
 
-## Step 4A: Add Function(Method 1) for your HttpTrigger 
-Once the deployment is complete, select **Go to resource**
-OR
-Select your Function App, click on **Functions**, then Create a new Function
+In this step, a Storage Account will be created, and then an Event Grid System Topic to the previously created Function App 
+- Create a Storage Account
+- Bind an Event Grid System Topic to a Function App 
+
+### Step 5.a: Create Storage Account for Event Grid, Azure Fuction and Event Grid
+
+````shell 
+# Create storage account for Event Grid Service 
+az storage account create --name $STORAGE_ACCOUNT_EVENT --location $REGION --resource-group $RESOURCE_GROUP --sku Standard_LRS --tags $TAG_PREFIX 
+````
+
+**NOTE: Switch to the Azure Portal for the remaining steps in the execise as indicated.** 
+
+### Step 5.b Create a Function to receive Event Grid events 
+
+Navigate to the Resource Group created previously, select the Function App, and create a new Function. 
 
 - Development Environment: **Develop in portal**
-- Choose template:  
-- Filter : **Http** 
--  Select **Http Trigger** template
-- New Function Name: **HttpTrigger1**
-- Authorization level: **Function**
+- Template: **Azure Event Grid trigger** 
+- Template details, New Function: **EventGridTriggerFunction** 
+- Create
 
-Click on **Create** and finish
+Navigate within the function app, verify function is **Enabled** 
 
-<img src="media/devday-create-af-create-http.png">
+ <img src="media/eventgrid.trigger.function.png">
 
-## Step 4B: Add Function(Method 2) for your EventGrid
-Select your Function App, click on **Functions**, then click on **Create** a new Function
-
-- Development Environment: **Develop in portal**
-- Choose template: 
-- Filter : **grid** 
-- Select **Event Grid Trigger** template
-- New Function Name: **EventGridTrigger1**
-
-Click on **Create** and finish
-
-<img src="media/devday-create-af-create-event.png">
-
-## Step 4C: Verify both the functions (methods) show up and they are enabled
-
-<img src="media/devday-functions-created.png">
-
-
-### Step 5: Create Storage Account 
-
-
-Navigate to the Resource Group created previously, select Create Resource 
-
-
-<img src="media/devday-select-storage.png">
-
-
-Then select on **Create** Storage Account
-
-Fill all the parameters as shown:
-
-- Storage Account Name: **devdayfebmystorage**
-- Region : **East US**
-- Performamcnce: **Standard** 
-- Redundancy: **Geo redundancy** 
-
-Click on **Review + create** and then confirm final creation
-
-<img src="media/devday-select-create-storage-account.png">
-
-
-## Step 6: Ask Azure to wire up this Blob Storage Account to emit Events when a new blob is added to this container
-
-Important steps to follow, please pay attention.
-
-
-### Step 6a: Ensure the Azure subscription has **Registered** the *Microsoft.EventGrid resource provider* 
+### Step 5.c: Ensure the Azure subscription has **Registered** the *Microsoft.EventGrid resource provider* 
 
 - Navigate in the Azure portal to the **Subscription**
 - Select the **Settings->Resource providers**
@@ -186,158 +137,127 @@ Important steps to follow, please pay attention.
 
 <img src="media/sub.eventgrid.registered.png">
 
-### Step 6b: Ask Azure to create a Event Subscriber(consumer) to trap events, push to EventGrid Topic and then call our Azure Function for post processing 
+##
+### Step 5.d: Create Event Grid System Topic and Function to process blob storage events 
 
-Navigate to the Resource Group created previously, select the **devdaymystorage** storage account, Click on **Events** <img src="media/rg.events.select.png" > icon and thenk click on **Event Subscription** on top, to create a new consumer. 
+Navigate to the Resource Group created previously, select the **Event Grid Storage Account**, **Events** <img src="media/rg.events.select.png" > icon and **Create** an **Event Subscription**, link it to the Function App. 
 
-<img src="media/devday-create-azure-event-subscriber.png">
-
-Fill all the parameters as shown:
-
-
-- Name: **eventgrid-consumer**
+- Configure and verify the **Topic Type** and **Source Resource** match the **stgevent....** resource created previously 
+- Select:  **Event Subscription** 
+- Name: **BlobEventGridToFunctionApp** 
 - Event Schema: **Event Grid Schema** 
-- System Topic Name: **devday-my-topic**
-- Filter to Event Types: default to **2 selected**, or as desired
-- Endpoint Type: **Azure Function** , select from the drop-down list
-- Endpoint: **select endpoint** (Click and navigate to another right window and select the desired FunctionApp and select the default **Function Name**  
+- System Topic Name: **BlobEventGridToFunctionAppTopic**
+- Event Types Filter: **default 2 selected, or as desired** 
+- Endpoint Type: **Azure Function** 
+- Endpoint: **select endpoint** (navigate and select the desired FunctionApp and select the default **Function Name**  
+- **Create**, a Function will **automatically** be created to process the **Event Grid** trigger
 
-Then click **Confirm Selection** for the endpoint and then click on **Create** for completion.
+<img src="media/eventgrid.function.endpoint.png"> 
 
-<img src="media/finish-up-wiring.png"> 
+Navigate to the Resource Group created previously, select the **Function App** -> **Functions** -> Select the **Function Name** -> **Code and + Test**: . 
+
+- Verify **{EventGridTriggerFunction}\run.csx** contains the following properties: 
+
+````shell
+#r "Microsoft.Azure.EventGrid"
+using Microsoft.Azure.EventGrid.Models;
+
+public static void Run(EventGridEvent eventGridEvent, ILogger log)
+{
+    log.LogInformation(eventGridEvent.Data.ToString());
+}
+````
 
 
-### Step 7: Event Grid Blob Storage Light Test
+## Step 6: Event Grid Blob Storage Test
 
 Current status is the following have been created and ready for testing: 
 
 - Azure Blob storage account 
-- Event Grid Topic created by Azure
+- Event Grid Topic for stoage account changes  
 - Function App to receive and log events 
 
 Next step is to create an blob container, upload files and verify the Event Grid System Topic triggers the Function App 
 
-- Navigate to the Resource Group, select our Blob storage account **devdayfebmystorage**
+- Navigate to the Resource Group, select the storage account crated for the **Event Grid**
 - Select: **Containers**, **+ Add Container**
-- Name: **test**, 
+- Name: **container1**, 
 - Access level: **default** or **as desired** 
-
-Click on **Review + create** and then confirm final creation
+- Create 
 
 Open a second browser session in the Azure Portal:
-- Session 1: Navigate to the newly created **test** container1
-- Session 2: Navigate to the Function App, **EventGridTrigger1**, and open the **Logs** menu, to view the Function logs 
+- Session 1: Navigate to the newly created **Blob container1**
+- Session 2: Navigate to the Function App, **EventGridTriggerFunction**, and open the **Logs** menu, to view the Function logs 
 - **Blob container**, select **Upload**, upload a favorite file, image or related media:
 
-<img src="media/upload-blob-test.png"> 
+<img src="media/azure.blob.container.upload.png"> 
 
--  **EventGridTrigger1**, observe for each image, Event Grid will trigger the Fuction, **Logs** will reflect the Event Grid trigger content: 
+-  **EventGridTriggerFunction**, observe for each image, Event Grid will trigger the Fuction, **Logs** will reflect the Event Grid trigger content: 
 
-<img src="media/output-binding-log.png"> 
+<img src="media/function.app.eventgrid.trigger.png"> 
 
 
-## Step 8: Azure Cosmos DB Output Binding
+## Step 7: Azure Cosmos DB Output Binding
 
 The next step in the application architecture is to push a document representing the Event Grid event to **Cosmos DB** for subsequent downstream processing. Adding Cosmos DB requires two steps: 
 
-- Adding an **Output Binding** to the **EventGridTrigger1**
-- Updating the  **EventGridTrigger1** function to emit the events into Cosmos DB 
+- Adding an **Output Binding** to the **EventGridTriggerFunction**
+- Updating the  **EventGridTriggerFunction** function to emit the events into Cosmos DB 
 
-### Step 8.a: Create an Output Binding For the EventTrigger1
+### Step 7.a: Azure Cosmos DB Output Binding
 
-Navigate to the **EventGridTrigger1**, select **Integration** and **Add output**: 
+Navigate to the **EventGridTriggerFunction**, select **Integration** and **Add output**: 
 - Binding Type: **Azure Cosmos DB**, select **New**, **Cosmos DB account connection**, and link to Cosmos DB account created earlier in the resource group
 - Document parameter name: **outputDocument** (case sensitive and must match the outputDocument property in the function 
-- Database name: **inDatabase** (as desired)
-- Collection name: **MyCollection** (as desired) 
+- Database name: **EventGridBlobStorageDb** (as desired)
+- Colleciton name: **Container1** (as desired) 
 - If true, ..: **Yes** 
 - Cosmos DB account connection: **select Cosmos DB account created earlier**  
 
 
-<img src="media/create-output-binding.png"> 
+<img src="media/function.add.output.binding.png"> 
 
+## 
 
-### Step 8.b: Update Azure Function to set the output binding with the input data being passed
+### Step 7.b: Update Azure Function to emit document event to CosmosDB binding
 
-**EventGridTrigger1\index.js** with **outputDocument** set to emit to Cosmos DB output binding: 
-
-````shell
-
-module.exports = async function (context, eventGridEvent) {
-    context.log(typeof eventGridEvent);
-    context.log(eventGridEvent);
-
-    context.bindings.outputDocument = eventGridEvent.data;
-};
-
-````
-
-### Step 8.c: Azure Cosmos DB Output Binding Test 
-
-The next step is repeat of [Step 6](#step-6-event-grid-blob-storage-test) with an additional verification. Set up browsers as described previously, and upload a desired file into the **container 1**: 
-
-- Verify the **EventGridTrigger1** triggers successfully via the **Logs** 
-- Navigate to the Cosmos DB **Data Explorer**, select the **MyCollection**, **Items** document
-- Verify the corresponding event id from the event grid trigger function matches and successive changes to the blob storage trigger updates to items in the Cosmos DB
-
-<img src="media/finish-test-2.png"> 
-
-The previous example demonstrates the relationship and services to connect Azure Event Grid to Azure Functions and then persist data in Azure Cosmos DB for an example of an event-driven architecture using **Azure Serverless offerings** 
-
---------------------------------------
-
-## Step 9: Azure Cosmos DB Input Binding for HttpTrigger1
-
-The next step in the application architecture is to read documents representing the Event Grid event from **Cosmos DB** for subsequent downstream processing. Adding Cosmos DB requires two steps: 
-
-- Adding an **Input Binding** to the **HttpTrigger1**
-- Updating the  **HttpTrigger1** function to read all items from the collection in the Cosmos DB 
-
-
-### Step 9.a: Azure Cosmos DB Output Binding
-
-Navigate to the **HttpTrigger1**, select **Integration** and **Add output**: 
-- Binding Type: **Azure Cosmos DB**, select **New**, **Cosmos DB account connection**, and link to Cosmos DB account created earlier in the resource group
-- Document parameter name: **inputDocument** (case sensitive and must match the outputDocument property in the function 
-- Database name: **inDatabase** (as desired)
-- Collection name: **MyCollection** (as desired) 
-- If true, ..: **Yes** 
-- Cosmos DB account connection: **select Cosmos DB account created earlier**  
-
-
-<img src="media/create_input_binding.png"> 
-
-
-### Step 9.b: Update Azure Function to set the output binding with the input data being passed
-
-**Httprigger1\index.js** with **outputDocument** set to emit to Cosmos DB output binding: 
+**EventGridTriggerFunction\run.csx** with **outputDocument** set to emit to Cosmos DB output binding: 
 
 ````shell
+#r "Microsoft.Azure.EventGrid"
+using Microsoft.Azure.EventGrid.Models;
 
-module.exports = async function (context, req) {
-    context.log('JavaScript HTTP trigger function processed a request.');
 
-    context.res = {
-        // status: 200, /* Defaults to 200 */
-        body: context.bindings.inputDocument
-    };
+[FunctionName("EventGridTrigger1")]
+public static void Run(EventGridEvent eventGridEvent,  out  object outputDocument, ILogger log)
+{
+    log.LogInformation(eventGridEvent.Data.ToString());
+    outputDocument = eventGridEvent.Data; 
+
 }
 
 ````
 
-### Step 9.c: Azure Cosmos DB Input Binding Test 
+### Step 7.c: Azure Cosmos DB Output Binding Test 
 
 The next step is repeat of [Step 6](#step-6-event-grid-blob-storage-test) with an additional verification. Set up browsers as described previously, and upload a desired file into the **container 1**: 
-- Run the Test/Run option and use GET instead of POST. Make sure you r seeing 200 Success
-- Verify the **HttpTrigger1** triggers successfully via the **Logs** 
 
-<img src="media/finish-test-1.png"> 
+- Verify the **EventGridTriggerFunction** triggers successfully via the **Logs** 
+- Navigate to the Cosmos DB **Data Explorer**, select the **EventGridBlobStorageDb**, **Items** document
+- Verify the corresponding event id from the event grid trigger function matches and successive changes to the blob storage trigger updates to items in the Cosmos DB
+
+<img src="media/cosmos.container.event.action.png"> 
 
 The previous example demonstrates the relationship and services to connect Azure Event Grid to Azure Functions and then persist data in Azure Cosmos DB for an example of an event-driven architecture using **Azure Serverless offerings** 
 
-## Step 10: Clean up resources and finish
 
-Select your resource group **devdayfeb-rsg** and delete. Remember to confirm all the resources in it.
+## Step 8: Clean up resources 
+
+Do NOT forget to remove the resources once you've completed the exercise, [Azure Group Delete](https://docs.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az_group_delete)
+
+```shell
+ az group delete --name $RESOURCE_GROUP --yes
+```
 
 ## Bonus Material 
 
