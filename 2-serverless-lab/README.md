@@ -12,7 +12,8 @@
 - [Step 6: Event Grid Blob Storage Test](#step-6-event-grid-blob-storage-test)
 - [Step 7: Azure Cosmos DB Output Binding](#step-7-azure-cosmos-db-output-binding)
 - [Step 8: Clean up resources](#step-8-clean-up-resources)
-- [Bonus Material](#bonus-material)
+- [Bonus Material Order Management Orchestration](#bonus-material-order-management-orchestration) 
+- [Bonus Material Keda Scaling](#bonus-material-keda-scaling)
 
 <!-- TOC -->
 
@@ -33,6 +34,7 @@ This example assumes the user already has an Azure subscription with contributor
 
 - Azure CLI, [How to install Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 - Git Bash, [Git Download for Windows](https://gitforwindows.org/)
+- NOTE: Users may use the [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/overview) as an alternative to downloading Git Bash 
 
 ## Step 1: Setup Azure subscription and properties
 
@@ -259,6 +261,12 @@ Do NOT forget to remove the resources once you've completed the exercise, [Azure
  az group delete --name $RESOURCE_GROUP --yes
 ```
 
-## Bonus Material 
+## Bonus Material Order Management Orchestration 
+
+This workshop walks through hosting an Azure-hosted solution utlizing Azure PaaS offerings and is geared toward Java developers. Find the [Bonus Material here](https://github.com/joelwaymack/order-management-java).
+
+<img src="media/order.management.architecture.png">
+
+## Bonus Material Keda Scaling 
 
 Want to accelerate and test your understanding of the various tools, integrate Azure Functions, Azure Kubernetes by adding KEDA auto-scaling. Find the [Bonus Material here](https://github.com/garyciampa/azure-dev-day-serverless/blob/main/BonusMaterial/readme.md)
