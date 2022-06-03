@@ -49,9 +49,9 @@ NOTE: The region location of the Resource Group may be different than the Azure 
   
   Fill all paramters as shown:
   
-- Subscription: **your-subscription-name**
-- Resource Name: **devdayfeb-rsg** 
-- Region: **East US** 
+- Subscription: **<your-subscription-name>**
+- Resource Name: **<prefix.region.service.rg>** 
+- Region: **<region>** 
 
 
 Click on **Review + create** and then confirm final creation
@@ -67,11 +67,11 @@ a Cosmos DB may be accomplished via the [Azure Portal](https://docs.microsoft.co
 
 <img src="media/devday-select-cosmos-db-create.png">
 
-Then select on **Create** Azure Cosmos DB. Cosmos provides different flaovors. Please choose the one with SQL
+Then select on **Create** Azure Cosmos DB. Cosmos provides different flavors. Please choose the one with SQL
 
 Fill all the parameters as shown
 
-- Resource Group: **devday-mfa**
+- Resource Group: **<prefix.region.service.rg>** 
 - Account Name: **rghosh-cosmos-sql**
 - Location: **East US** 
 - Capacity Mode: **Provisioned throughput** 
