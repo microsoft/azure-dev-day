@@ -80,10 +80,10 @@ In this lab we're going to see how easy it is to create a functional Azure Web A
 1. Modify the **web app deploy action** so it deploys to the pre-prod slot instead of the production slot.
     1. Replace the entire **Deploy web app on azure** action (lines 123 through 128) by pasting **Snippet 2** from the snippets file. After pasting the snippet, make sure the columns are indented similar to other actions as shown in the image below.
     ![Deploy to slot](./images/deploy-to-slot.png)
-1. Modify the **Run Functional Tests** action to run against the **pre-prod** slot.
-    1. Replace the entire **Run functional tests** action (lines 144 through 152 or thereabouts) by pasting **Snippet 3** from the snippets file.  After pasting the snippet, make sure the columns are indented similar to other actions as shown in the image below.
-    ![Change functional test to test the slot](./images/functional-test-against-slot.png)
-    1. Notice that the environment variable for the pre-prod slot has been added to the URL. 
+1. To save time with the rest of the lab, delete the **FunctionalTests** job.
+    1. Delete the entire **FunctionalTests** job (lines 131 - 152 or thereabouts). The functional tests can sometimes take a while to run. This will speed up your lab work.
+    ![Change functional test to test the slot](./images/deletefunctionaltestsjob.png)
+
 ## Commit the changes and watch the updated workflow run
 
 1. Save the changes to the devops-starter-workflow.yml file.
@@ -95,8 +95,8 @@ In this lab we're going to see how easy it is to create a functional Azure Web A
 1. Click on Actions to go to the Actions tab, then click on the latest workflow to watch it run / view the results. It will take several minutes to complete. Note: In this view, the workflow run name will be whatever you typed for your commit message ("deploy and test pre-prod slot" in this case).
     ![Click on Actions](./images/click-actions-1.png)
     ![Click on the workflow instance](./images/look-at-workflow-results.png)
-1. You'll see the current state of the three jobs that are in the workflow. You can click on each job name within the run to see the log messages for it. (If the job is still running you'll be able to see the log messages update in real time.)
-    ![Successful workflow run](./images/successful-workflow-run-1.png)
+1. You'll see the current state of the two jobs that are in the workflow. You can click on each job name within the run to see the log messages for it. (If the job is still running you'll be able to see the log messages update in real time.)
+    ![Successful workflow run](./images/successfulworkflowrun-2.png)
 
 1. Once the workflow completes, switch back to the Azure Portal tab and from the Deployment slots view, click on the **pre-prod** slot link, then click on the URL for the pre-prod website.
 
@@ -113,7 +113,7 @@ Update the workflow to do a slot swap, and swap the production and pre-prod slot
 
     The newly added job should look similar to this (remember -- in **.yml** files, **column alignment is crucial**):
 
-    ![Swap Slots Job](./images/swap-slots.png)
+    ![Swap Slots Job](./images/swap-slots-2.png)
 
 1. **Important:** Comment out the ARM Template deploy action by typing a pound sign (#) at the beginning of each line. If you don't do this, your pipeline will fail. (Remember when we added the deployment slot using the Azure portal? The ARM template in our GitHub repo doesn't have that change, and re-deploying the ARM template will remove the slot, and the workflow will fail when it tries to deploy to the slot.) 
     ![Comment out the arm template depoloy](./images/comment-the-arm-template-deploy-action.png)
