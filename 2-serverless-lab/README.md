@@ -58,8 +58,8 @@ export REGION=<eastus2>
 export COSMOSDB_ACCOUNT_NAME=${TAG_PREFIX}-cosmosdb-$RANDOM
 
 # Azure storage account names must be <= 24 characters
-export STORAGE_ACCOUNT_FUNC=stgfunc${TAG_PREFIX}${RANDOM}
-export STORAGE_ACCOUNT_EVENT=stgevent${TAG_PREFIX}${RANDOM}
+export STORAGE_ACCOUNT_FUNC=stgfn${TAG_PREFIX}${RANDOM}
+export STORAGE_ACCOUNT_EVENT=stgev${TAG_PREFIX}${RANDOM}
 
 export FUNCTION_APPNAME=${TAG_PREFIX}-functionapp-${RANDOM}
 ````
