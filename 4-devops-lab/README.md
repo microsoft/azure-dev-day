@@ -115,9 +115,6 @@ Update the workflow to do a slot swap, and swap the production and pre-prod slot
 
     ![Swap Slots Job](./images/swap-slots-2.png)
 
-1. **Important:** Comment out the ARM Template deploy action by typing a pound sign (#) at the beginning of each line. If you don't do this, your pipeline will fail. (Remember when we added the deployment slot using the Azure portal? The ARM template in our GitHub repo doesn't have that change, and re-deploying the ARM template will remove the slot, and the workflow will fail when it tries to deploy to the slot.) 
-    ![Comment out the arm template depoloy](./images/comment-the-arm-template-deploy-action.png)
-
 1. In the file **Application/views/index.pug** change the **.success-text** message to something such as **p Success is fun!!!!**
 
     ![Modify success text](./images/modify-success-text.png)
