@@ -43,21 +43,24 @@ Initial login and subscription setup is a required prerequisite
 ````shell
 export SUBSCRIPTION_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx
 
+# required for gitbash;
 az login 
+
 az account set --subscription $SUBSCRIPTION_ID
 ````
 ## Set variable properties for substitution, use an [Azure Tag](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources?tabs=json#azure-cli) property for uniqueness.
 
 ````shell
 # <business-unit> is well-known or unique attribute to distinquish among organizational resources, perhaps for billing, dev, test prod, locales, etc. 
-export TAG_PREFIX=<business-unit>
+export REGION=<eastus>
+export TAG_PREFIX=<prefix>${REGION}
+export TAG_VALUE=${REGION}-2022-06-08
 
 export RESOURCE_GROUP=<$TAG_PREFIX-demo-azure-dev-day>
-export REGION=<eastus2>
 
 export COSMOSDB_ACCOUNT_NAME=${TAG_PREFIX}-cosmosdb-$RANDOM
 
-# Azure storage account names must be <= 24 characters
+# Azure storage account names must be <= 24 characters, letters and numbers only 
 export STORAGE_ACCOUNT_FUNC=stgfn${TAG_PREFIX}${RANDOM}
 export STORAGE_ACCOUNT_EVENT=stgev${TAG_PREFIX}${RANDOM}
 
@@ -71,7 +74,7 @@ NOTE: The region location of the Resource Group may be different than the Azure 
 [Create Azure Resource Group](https://docs.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest#az_group_create) use the following command line:
 
 ````shell
-az group create --name $RESOURCE_GROUP --location $REGION --tags $TAG_PREFIX 
+az group create --name $RESOURCE_GROUP --location $REGION --tags $TAG_PREFIX=$TAG_VALUE  
 ````
   
 ## Step 3: Create Cosmos DB resources
@@ -79,7 +82,7 @@ az group create --name $RESOURCE_GROUP --location $REGION --tags $TAG_PREFIX
 Creating a Cosmos DB may be accomplished via the [Azure Portal](https://docs.microsoft.com/en-us/azure/cosmos-db/create-cosmosdb-resources-portal), or via the [Azure CLI](https://docs.microsoft.com/en-us/azure/cosmos-db/cli-samples).
 
 ````shell
-az cosmosdb create --name $COSMOSDB_ACCOUNT_NAME --resource-group $RESOURCE_GROUP --tags $TAG_PREFIX 
+az cosmosdb create --name $COSMOSDB_ACCOUNT_NAME --resource-group $RESOURCE_GROUP --tags $TAG_PREFIX=$TAG_VALUE  
 ````
  
  
@@ -93,13 +96,13 @@ Creating a Storage Account and Function App via the [Azure Portal](https://porta
 
 ````shell 
 # Create storage account and function app service 
-az storage account create --name $STORAGE_ACCOUNT_FUNC --location $REGION --resource-group $RESOURCE_GROUP --sku Standard_LRS --tags $TAG_PREFIX 
+az storage account create --name $STORAGE_ACCOUNT_FUNC --location $REGION --resource-group $RESOURCE_GROUP --sku Standard_LRS --tags $TAG_PREFIX=$TAG_VALUE  
 
 ### Step 4A: Create Function App service (function app service is a placeholder for the event grid function, created in next steps)
 
 az functionapp create --name $FUNCTION_APPNAME  --storage-account $STORAGE_ACCOUNT_FUNC \
 	--consumption-plan-location $REGION \
-	--resource-group $RESOURCE_GROUP --functions-version 3 --tags $TAG_PREFIX
+	--resource-group $RESOURCE_GROUP --functions-version 3 --tags $TAG_PREFIX=$TAG_VALUE 
 ````
 
 ## Step 5: Create Event Grid 
@@ -112,7 +115,7 @@ In this step, a Storage Account will be created, and then an Event Grid System T
 
 ````shell 
 # Create storage account for Event Grid Service 
-az storage account create --name $STORAGE_ACCOUNT_EVENT --location $REGION --resource-group $RESOURCE_GROUP --sku Standard_LRS --tags $TAG_PREFIX 
+az storage account create --name $STORAGE_ACCOUNT_EVENT --location $REGION --resource-group $RESOURCE_GROUP --sku Standard_LRS --tags $TAG_PREFIX=$TAG_VALUE  
 ````
 
 **NOTE: Switch to the Azure Portal for the remaining steps in the execise as indicated.** 
