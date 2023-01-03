@@ -102,7 +102,7 @@ az storage account create --name $STORAGE_ACCOUNT_FUNC --location $REGION --reso
 
 az functionapp create --name $FUNCTION_APPNAME  --storage-account $STORAGE_ACCOUNT_FUNC \
 	--consumption-plan-location $REGION \
-	--resource-group $RESOURCE_GROUP --functions-version 3 --tags $TAG_PREFIX=$TAG_VALUE 
+	--resource-group $RESOURCE_GROUP --functions-version 4 --tags $TAG_PREFIX=$TAG_VALUE 
 ````
 
 ## Step 5: Create Event Grid 
