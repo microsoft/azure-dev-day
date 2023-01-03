@@ -229,16 +229,16 @@ Navigate to the **EventGridTriggerFunction**, select **Integration** and **Add o
 **EventGridTriggerFunction\run.csx** with **outputDocument** set to emit to Cosmos DB output binding: 
 
 ````shell
-#r "Microsoft.Azure.EventGrid"
-using Microsoft.Azure.EventGrid.Models;
+#r "Azure.Messaging.EventGrid"
+#r "System.Memory.Data"
 
+using Azure.Messaging.EventGrid;
+using System;
 
-[FunctionName("EventGridTrigger1")]
-public static void Run(EventGridEvent eventGridEvent,  out  object outputDocument, ILogger log)
+public static void Run(EventGridEvent eventGridEvent, out object outputDocument, ILogger log)
 {
     log.LogInformation(eventGridEvent.Data.ToString());
     outputDocument = eventGridEvent.Data; 
-
 }
 
 ````
