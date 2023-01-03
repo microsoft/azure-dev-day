@@ -54,7 +54,7 @@ az account set --subscription $SUBSCRIPTION_ID
 # <business-unit> is well-known or unique attribute to distinquish among organizational resources, perhaps for billing, dev, test prod, locales, etc. 
 export REGION=<eastus>
 export TAG_PREFIX=<prefix>${REGION}
-export TAG_VALUE=${REGION}-2022-06-08
+export TAG_VALUE=${REGION}-2023-01-03
 
 export RESOURCE_GROUP=<$TAG_PREFIX-demo-azure-dev-day>
 
